@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    "@babel/plugin-proposal-private-methods"
+  ],
+  "presets": [
+    [
+      "next/babel",
+      {
+        "transform-runtime": {
+          "useESModules": false
+        }
+      }
+    ]
+  ]
+}
