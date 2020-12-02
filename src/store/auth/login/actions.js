@@ -1,36 +1,30 @@
-import {LOGIN_USER, LOGIN_SUCCESS, LOGOUT_USER, LOGOUT_USER_SUCCESS, API_ERROR} from './actionTypes';
+import {LOGIN_USER, LOGIN_SUCCESS, LOGOUT_USER, GET_PROFILE, API_ERROR, LOGOUT_USER_SUCCESS} from "./actionTypes"
 
-export const loginUser = (user, history) => {
-    return {
-        type: LOGIN_USER,
-        payload: {user, history}
-    }
-}
+export const loginUser = ({username, password, resolve}) => ({
+    type: LOGIN_USER,
+    payload: {username, password, resolve},
+})
 
-export const loginSuccess = (user) => {
-    return {
-        type: LOGIN_SUCCESS,
-        payload: user
-    }
-}
+export const loginSuccess = ({user}) => ({
+    type: LOGIN_SUCCESS,
+    payload: {user},
+})
 
-export const logoutUser = (history) => {
-    return {
-        type: LOGOUT_USER,
-        payload: {history}
-    }
-}
+export const logoutUser = ({resolve}) => ({
+    type: LOGOUT_USER,
+    payload: {resolve},
+})
 
-export const logoutUserSuccess = () => {
-    return {
-        type: LOGOUT_USER_SUCCESS,
-        payload: {}
-    }
-}
+export const logoutUserSuccess = () => ({
+    type: LOGOUT_USER_SUCCESS
+})
 
-export const apiError = (error) => {
-    return {
-        type: API_ERROR,
-        payload: error
-    }
-}
+export const getProfile = ({resolve}) => ({
+    type: GET_PROFILE,
+    payload: {resolve},
+})
+
+export const apiError = ({error}) => ({
+    type: API_ERROR,
+    payload: {error},
+})

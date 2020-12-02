@@ -1,17 +1,11 @@
 import React, {Component} from "react"
 import {Switch, BrowserRouter as Router} from "react-router-dom"
 import {connect} from "react-redux"
-
-// Import Routes
 import {authProtectedRoutes, publicRoutes} from "./routes/"
 import AppRoute from "./routes/route"
-
-// layouts
 import VerticalLayout from "./components/VerticalLayout/"
 import HorizontalLayout from "./components/HorizontalLayout/"
 import NonAuthLayout from "./components/NonAuthLayout"
-
-// Import scss
 import "./assets/scss/theme.scss"
 
 class App extends Component
@@ -42,7 +36,6 @@ class App extends Component
     render()
     {
         const Layout = this.getLayout()
-
         return (
             <React.Fragment>
                 <Router>

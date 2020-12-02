@@ -1,26 +1,20 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {withRouter} from "react-router-dom"
+import {logoutUser} from "../../store/actions"
 
-import {logoutUser} from '../../store/actions';
+class Logout extends Component
+{
+    componentDidMount = () =>
+    {
+        const {logoutUser, history} = this.props
+        logoutUser({resolve: () => history.replace("/login")})
+    }
 
-class Logout extends Component {
-    /**
-     * Redirect to login
-     */
-    componentDidMount = () => {
-        // emit the event
-        this.props.logoutUser(this.props.history);
-    };
-
-    render() {
-        return <React.Fragment></React.Fragment>;
+    render()
+    {
+        return <React.Fragment/>
     }
 }
 
-export default withRouter(
-    connect(
-        null,
-        {logoutUser}
-    )(Logout)
-);
+export default withRouter(connect(null, {logoutUser})(Logout))

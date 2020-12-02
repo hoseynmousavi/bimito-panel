@@ -1,18 +1,17 @@
-import {all} from 'redux-saga/effects';
+import {all} from "redux-saga/effects"
+import accountSaga from "./auth/register/saga"
+import authSaga from "./auth/login/saga"
+import forgetPasswordSaga from "./auth/forgetpwd/saga"
+import layoutSaga from "./layout/saga"
 
-//public
-import AccountSaga from './auth/register/saga';
-import AuthSaga from './auth/login/saga';
-import ForgetSaga from './auth/forgetpwd/saga';
-import LayoutSaga from './layout/saga';
-
-
-export default function* rootSaga() {
+const rootSaga = function* ()
+{
     yield all([
-        //public
-        AccountSaga(),
-        AuthSaga(),
-        ForgetSaga(),
-        LayoutSaga()
+        ...accountSaga,
+        ...authSaga,
+        ...forgetPasswordSaga,
+        ...layoutSaga,
     ])
 }
+
+export default rootSaga

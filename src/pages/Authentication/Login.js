@@ -1,47 +1,32 @@
 import React, {Component} from "react"
-
 import {Row, Col, CardBody, Card, Alert} from "reactstrap"
-
-// Redux
 import {connect} from "react-redux"
 import {withRouter, Link} from "react-router-dom"
-
-// availity-reactstrap-validation
 import {AvForm, AvField} from "availity-reactstrap-validation"
-
-// actions
-import {loginUser, apiError} from "../../store/actions"
-
-// import images
+import {loginUser} from "../../store/actions"
 import profile from "../../assets/images/profile-img.png"
 import logo from "../../assets/images/logo.svg"
+import {bindActionCreators} from "redux"
 
 class Login extends Component
 {
-
     constructor(props)
     {
         super(props)
         this.state = {}
-
-        // handleValidSubmit
-        this.handleValidSubmit = this.handleValidSubmit.bind(this)
     }
 
-    // handleValidSubmit
-    handleValidSubmit(event, values)
+    handleValidSubmit = (_, values) =>
     {
-        this.props.loginUser(values, this.props.history)
-    }
-
-    componentDidMount()
-    {
-        this.props.apiError("")
+        const {actions, history} = this.props
+        const {username, password} = values
+        actions.loginUser({username, password, resolve: () => history.push("/dashboard")})
     }
 
     render()
     {
-
+        const {login} = this.props
+        const {error} = login
         return (
             <React.Fragment>
                 <div className="home-btn d-none d-sm-block">
@@ -57,7 +42,7 @@ class Login extends Component
                                             <Col className="col-7">
                                                 <div className="text-primary p-4">
                                                     <h5 className="text-primary">Welcome Back !</h5>
-                                                    <p>Sign in to continue to Skote.</p>
+                                                    <p>Sign in to continue to Panel.</p>
                                                 </div>
                                             </Col>
                                             <Col className="col-5 align-self-end">
@@ -79,25 +64,21 @@ class Login extends Component
 
                                             <AvForm className="form-horizontal" onValidSubmit={this.handleValidSubmit}>
 
-                                                {this.props.error && this.props.error ?
-                                                    <Alert color="danger">{this.props.error}</Alert> : null}
+                                                {
+                                                    error && <Alert color="danger">{error === "نام کاربری یا کلمه عبور اشتباه است" ? "Wrong Credential!" : error}</Alert>
+                                                }
 
                                                 <div className="form-group">
-                                                    <AvField name="email" label="Email" value="admin@themesbrand.com"
-                                                             className="form-control" placeholder="Enter email"
-                                                             type="email" required/>
+                                                    <AvField name="username" label="Username" value="" className="form-control" placeholder="Enter username" type="text" required/>
                                                 </div>
 
                                                 <div className="form-group">
-                                                    <AvField name="password" label="Password" value="123456"
-                                                             type="password" required placeholder="Enter Password"/>
+                                                    <AvField name="password" label="Password" value="" type="password" required placeholder="Enter Password"/>
                                                 </div>
 
                                                 <div className="custom-control custom-checkbox">
-                                                    <input type="checkbox" className="custom-control-input"
-                                                           id="customControlInline"/>
-                                                    <label className="custom-control-label"
-                                                           htmlFor="customControlInline">Remember me</label>
+                                                    <input type="checkbox" className="custom-control-input" id="customControlInline"/>
+                                                    <label className="custom-control-label" htmlFor="customControlInline">Remember me</label>
                                                 </div>
 
                                                 <div className="mt-3">
@@ -107,20 +88,17 @@ class Login extends Component
                                                     </button>
                                                 </div>
 
-                                                <div className="mt-4 text-center">
-                                                    <Link to="/forget-password" className="text-muted">
-                                                        <i className="mdi mdi-lock mr-1"/> Forgot your password?</Link>
-                                                </div>
+                                                {/*<div className="mt-4 text-center">*/}
+                                                {/*    <Link to="/forget-password" className="text-muted">*/}
+                                                {/*        <i className="mdi mdi-lock mr-1"/> Forgot your password?</Link>*/}
+                                                {/*</div>*/}
                                             </AvForm>
                                         </div>
                                     </CardBody>
                                 </Card>
                                 <div className="mt-5 text-center">
-                                    <p>Don't have an account ? <Link to="register" className="font-weight-medium text-primary"> Signup now </Link></p>
-                                    <p>
-                                        © {new Date().getFullYear()} Skote. Crafted with
-                                        <i className="mdi mdi-heart text-danger"/> by Themesbrand
-                                    </p>
+                                    {/*<p>Don't have an account ? <Link to="register" className="font-weight-medium text-primary"> Signup now </Link></p>*/}
+                                    <p>© {new Date().getFullYear()} - Azki & Bimito :)</p>
                                 </div>
                             </Col>
                         </Row>
@@ -131,16 +109,15 @@ class Login extends Component
     }
 }
 
-const mapStateToProps = state =>
-{
-    const {error} = state.Login
-    return {error}
-}
+const mapStateToProps = state => ({
+    login: state.Login,
+})
 
-const mapDispatchToProps = {
-    loginUser,
-    apiError,
-}
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators({
+        loginUser,
+    }, dispatch),
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login))
 

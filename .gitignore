@@ -24,9 +24,6 @@ yarn-error.log*
 # host
 /host
 
-# misc
-/.idea
-
 # package-lock.json
 package-lock.json
 yarn.lock

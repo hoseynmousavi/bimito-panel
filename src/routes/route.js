@@ -1,36 +1,25 @@
 import React from "react"
 import {Route, Redirect} from "react-router-dom"
-
-//AUTH related methods
-import {getFirebaseBackend} from "../helpers/authUtils"
+import {connect} from "react-redux"
 
 const AppRoute = ({
+                      login,
                       component: Component,
                       layout: Layout,
                       isAuthProtected,
                       ...rest
                   }) => (
-    <Route
-        {...rest}
-        render={props =>
-        {
-            const fireBaseBackend = getFirebaseBackend()
-
-            if (isAuthProtected && ((fireBaseBackend && !fireBaseBackend.getAuthenticatedUser()) || !fireBaseBackend))
-            {
-                return (
-                    <Redirect to={{pathname: "/login", state: {from: props.location}}}/>
-                )
-            }
-
-            return (
-                <Layout>
-                    <Component {...props} />
-                </Layout>
-            )
-        }}
+    <Route{...rest}
+          render={props =>
+          {
+              if (isAuthProtected && (!login.token || !login.firstName)) return <Redirect to={{pathname: "/login", state: {from: props.location}}}/>
+              else return <Layout><Component {...props} /></Layout>
+          }}
     />
 )
 
-export default AppRoute
+const mapStateToProps = state => ({
+    login: state.Login,
+})
 
+export default connect(mapStateToProps)(AppRoute)
